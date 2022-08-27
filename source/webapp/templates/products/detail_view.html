@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block nav %}
+
+{% if request.user.is_authenticated %}
+<li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Редактировать/Удалить
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <li><a class="dropdown-item" href="{% url 'webapp:update_product' product.pk %}">Редактировать</a></li>
+            <li><a class="dropdown-item" href="{% url 'webapp:delete_product' product.pk %}">Удалить</a></li>
+          </ul>
+        </li>
+{% endif %}
+
+{% endblock %}
+
+{% block content %}
+<br>
+<div class="card text-secondary mb-3" style="max-width: 540px;">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><label>Название:</label>
+                    <h3>{{ product.name }}</h3></li>
+                <li class="list-group-item"><label>Категория:</label>
+                    <h3>{{ product.category }}</h3></li>
+                <li class="list-group-item"><label>Отзыв:</label>
+                    <h3>{{ product.description }}</h3></li>
+            </ul>
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <li class="list-group-item"><label>Картинка</label>
+                    {% if product.picture %}
+                         <img src="{{ product.picture.url }}" class="card-img-top" alt="...">
+                    {% else %}
+
+                    {% endif %}
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

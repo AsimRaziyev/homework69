@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block nav %}
+    {% if request.user.is_authenticated %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'accounts:change_profile' %}">Редактировать</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'accounts:change_password' %}">Сменить пароль</a>
+        </li>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <br>
+    <div class="d-flex flex-row bd-highlight mb-3 ">
+        <div class="card border-info p-2 bd-highlight" style="width: 18rem;">
+            <div class="card-header"><label>Имя пользователя:</label>
+                <h3 class="FO">{{ user.username }}</h3>
+            </div>
+            {% if user.profile.avatar %}
+                <img src="{{ user.profile.avatar.url }}" class="card-img-top" alt="...">
+            {% endif %}
+        </div>
+        <div class="card border-info p-2 bd-highlight " style="width: 18rem;">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><label>Почта:</label>
+                    <h6>{{ user.email }}</h6>
+                </li>
+                <li class="list-group-item"><label>О себе:</label>
+                    <h6>{{ user.profile.about }}</h6>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
