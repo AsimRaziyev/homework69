@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="" class="form">
+    <input id="input1" type="number" name="message" placeholder="введите число"/>
+    <input id="input2" type="number" name="message" placeholder="введите число"/>
+
+    <button id='add' type="button" class="btn" data-url="{% url 'api_v1:add' %}">add</button>
+    <button id='subtract' type="button" class="btn" data-url="{% url 'api_v1:subtract' %}">subtract
+    </button>
+    <button id='multiply' type="button" class="btn" data-url="{% url 'api_v1:multiply' %}">multiply
+    </button>
+    <button id='divide' type="button" class="btn" data-url="{% url 'api_v1:divide' %}">divide</button>
+
+    <p id="result" style=""></p>
+</form>
+<script>
+    let button = document.querySelectorAll(".btn")
+    button.forEach(button => {
+        button.addEventListener("click", () => {
+            getResponse(event)
+        })
+    })
+    async function getResponse(event) {
+        event.preventDefault()
+        let target = event.target;
+        let url = target.dataset.url;
+        let input1 = document.getElementById("input1").value
+        let input2 = document.getElementById("input2").value
+        let data = {A: input1, B: input2}
+
+        let response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'ContentType': 'application/json',
+                'X-CSRFToken': csrftoken
+            },
+            body: JSON.stringify(data)
+        })
+
+        const json = await response.json();
+        let result = json['error'] || json['answer']
+        if (result === json['error']) {
+            let p = document.getElementById('result')
+            p.style = "color:red"
+            p.innerText = 'Result:' + result
+        } else {
+            let p = document.getElementById('result')
+            p.style = "color:blue"
+            p.innerText = 'Result:' + result
+        }
+
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
+
+</script>
+</body>
+</html>

@@ -23,10 +23,10 @@ class Product(models.Model):
     name = models.CharField(max_length=30, blank=False, verbose_name="Название")
     description = models.TextField(max_length=2000, blank=True, verbose_name="Описание")
     category = models.CharField(max_length=30, blank=False, verbose_name="Категория", choices=CATEGORY_CHOICES)
-    picture = models.ImageField(upload_to='images/', null=True, blank=True, verbose_name="Картинка", default='/images/photo-1.jpg')
+    picture = models.ImageField(upload_to='pictures', null=True, blank=True, verbose_name="Картинка")
 
     def __str__(self):
-        return f"{self.id}. {self.name}: {self.description}.{self.category}.{self.picture}"
+        return f"{self.id}. {self.name}:{self.category}"
 
     def get_absolute_url(self):
         return reverse("webapp:detail_view", kwargs={"pk": self.pk})
@@ -41,7 +41,7 @@ class Review(models.Model):
     grade = models.IntegerField(blank=False, choices=DEFAULT_CHOICES, verbose_name="Оценка")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата изменения")
-    moderated = models.BooleanField(default=True, verbose_name="Промодерировать")
+    moderated = models.BooleanField(default=False, verbose_name="Промодерировать")
 
     def __str__(self):
-        return f"{self.id}. {self.user}: {self.product}.{self.description_reviews}.{self.grade}.{self.moderated}"
+        return f"{self.id}. {self.user.username}: {self.product.name}"
