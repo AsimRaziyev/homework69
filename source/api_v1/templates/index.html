@@ -47,13 +47,12 @@
         if (result === json['error']) {
             let p = document.getElementById('result')
             p.style = "color:red"
-            p.innerText = 'Result:' + result
+            p.innerText = 'Result: ' + result
         } else {
             let p = document.getElementById('result')
-            p.style = "color:blue"
-            p.innerText = 'Result:' + result
+            p.style = "color:green"
+            p.innerText = 'Result: ' + result
         }
-
     }
 
     function getCookie(name) {
